@@ -4,7 +4,7 @@ springcloud模板项目，便于查看使用方式；每个中间件一个项目
 	eureka-consumer-ribbon/feign；访问入口、安全。swagger、mvc
 	eureka-service-redis；缓存
 	eureka-service-rabbitmq；消息
-	eureka-service-sql；h2、druid、mybatis、hibernate
+	eureka-service-sql；h2、druid、mybatis/pageHelper、hibernate、querydsl
 	eureka-service-es；es检索，spring data、client模式
 	spring-test；测试
 	spring-integrate；整合。加密、邮件、quartz、
