@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: eureka-consumer-feign #微服务调用名称
+server:
+  port: 8772
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

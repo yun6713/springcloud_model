@@ -1,0 +1,31 @@
+springcloud模板项目，便于查看使用方式；每个中间件一个项目。
+	euraka-register；注册
+	eureka-zuul；网关、安全
+	eureka-consumer-ribbon/feign；访问入口、安全。swagger、mvc
+	eureka-service-redis；缓存
+	eureka-service-rabbitmq；消息
+	eureka-service-sql；h2、druid、mybatis、hibernate
+	eureka-service-es；es检索，spring data、client模式
+	spring-test；测试
+	spring-integrate；整合。加密、邮件、quartz、
+	spring-ext；spring扩展。ioc扩展、aop、spel、资源、事件
+
+现为简单实现，后续有新功能时扩展。
+
+命令运行eclipse中多个项目，打包，sh脚本运行。
+	#项目根路径下所有文件夹，判定前缀，执行java -jar命令
+	projectDir="D:\eclipse-workspace\springcloud_model"
+	cd $projectDir
+	#ls -d获取获取匹配指定pattern的文件夹
+	dirs=`ls -d eureka* spring*`
+	for dir in $dirs 
+	do 
+	  #拼接jar路径
+	  java -jar "./${dir}/target/${dir}-0.0.1-SNAPSHOT.jar" 
+	done
+停止？获取pid，kill -9
+	
+
+
+
+

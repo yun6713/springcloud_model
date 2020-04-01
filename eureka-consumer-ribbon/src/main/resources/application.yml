@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: eureka-consumer-ribbon #应用名，微服务调用名称
+server:
+  port: 8771
+
+eureka:
+  client: #eureka客户端配置
+    service-url:  #注册中心url
+      defaultZone: http://localhost:8761/eureka/

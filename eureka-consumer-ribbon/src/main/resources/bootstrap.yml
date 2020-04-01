@@ -1,0 +1,8 @@
+# 先于application.yml加载，常用语配置config server、加密解密等
+spring:
+  cloud:
+    config: #配置服务器信息
+      uri: http://localhost:8782
+      label: master
+      name: application
+      profile: t1
