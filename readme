@@ -10,6 +10,10 @@ springcloud模板项目，便于查看使用方式；每个中间件一个项目
 	spring-integrate；整合。加密、邮件、quartz、
 	spring-ext；spring扩展。ioc扩展、aop、spel、资源、事件
 
+通用包：
+	fastjson；序列化
+	
+
 现为简单实现，后续有新功能时扩展。
 
 命令运行eclipse中多个项目，打包，sh脚本运行。

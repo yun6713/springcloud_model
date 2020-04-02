@@ -1,9 +1,53 @@
+server:
+  port: 8781
 spring:
   application:
     name: eureka-service-sql #应用名，微服务调用名称
-server:
-  port: 8781
-
+  #  h2: #内嵌h2配置
+#    console: #h2浏览器监控界面
+#      enabled: true
+#      path: /h2console
+#      settings:
+#        web-allow-others: true #远程访问
+  datasource:   
+    type: com.alibaba.druid.pool.DruidDataSource  
+    first: 
+      driver-class-name: org.h2.Driver
+      url: jdbc:h2:tcp://localhost:9092/./h2
+      username: sa
+      password:     
+      #连接池等相关配置
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      #filters: stat,wall,log4j
+      filters: stat,log4j #去掉防火墙，否则获取序列值报错
+      initialSize: 13
+      maxActive: 20
+      maxPoolPreparedStatementPerConnectionSize: 20
+      maxWait: 60000
+      minEvictableIdleTimeMillis: 300000
+      minIdle: 5
+      poolPreparedStatements: true
+      testOnBorrow: true
+      testOnReturn: false
+      testWhileIdle: true
+      timeBetweenEvictionRunsMillis: 60000
+      useGlobalDataSourceStat: true
+      validationQuery: SELECT 'x'
+      db-type: H2
+  jpa:
+    open-in-view: true #默认true，EntityManager在request期间绑定thread，防止懒加载错误
+    show-sql: true    
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+mybatis:
+  type-aliases-package: com.bonc.service.sql.entity.jpa
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    database-id: h2
+    log-impl: com.bonc.service.sql.log.MybatisLog
 eureka:
   client: #eureka客户端配置
     service-url:  #注册中心url

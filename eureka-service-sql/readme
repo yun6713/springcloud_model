@@ -1,0 +1,8 @@
+1，h2数据备份、恢复
+	备份：CALL CSVWRITE ( 'D:/H2/dbbak/20141013.txt', 'SELECT * FROM MYTABLE');
+	恢复：CREATE TABLE MYTABLE AS SELECT * FROM CSVREAD('D:/H2/dbbak/20141013.csv');
+2，
+
+
+
+
