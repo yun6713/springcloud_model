@@ -78,9 +78,9 @@ public class JpaController{
 	@ApiOperation("按id查询用户")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", defaultValue="1", value = "id", required = true, paramType = "path")})
 	@RequestMapping(value="/findUser/{id}", method=RequestMethod.GET)
-	public String findUser(@PathVariable("id") Integer id) {
+	public User findUser(@PathVariable("id") Integer id) {
 		User u = jpaService.findUserById(id);
-		return Optional.ofNullable(u).map(User::getUsername).orElse("noSuchOne");
+		return u;
 	}
 
 	@ApiOperation("查询全部用户")
@@ -88,6 +88,38 @@ public class JpaController{
 	public Object findAllUsers() {
 		List<User> users=jpaService.getAllUsers();
 		return users;
+	} 
+	
+
+	@ApiOperation("新增角色")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "name", defaultValue="ROLE_admin", value = "角色名", required = true, paramType = "path")})
+	@RequestMapping(value="/insertRole/{name}", method=RequestMethod.GET)
+	public Object insertRole(@PathVariable String name) {
+		Role role=new Role();
+		role.setRoleName("ROLE_admin");
+		return jpaService.saveRole(role);
+	}
+	
+	@ApiOperation("按id删除角色")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "id", defaultValue="1", value = "id", required = true, paramType = "path")})
+	@RequestMapping(value="/deleteRole/{id}", method=RequestMethod.GET)
+	public String deleteRole(@PathVariable("id") Integer id) {
+		jpaService.deleteRoleById(id);
+		return "Success";
+	}	
+	@ApiOperation("按id查询角色")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "id", defaultValue="1", value = "id", required = true, paramType = "path")})
+	@RequestMapping(value="/findRole/{id}", method=RequestMethod.GET)
+	public Role findRole(@PathVariable("id") Integer id) {
+		Role role = jpaService.findRoleById(id);
+		return role;
+	}
+
+	@ApiOperation("查询全部角色")
+	@RequestMapping(value="/findAllRoles", method=RequestMethod.GET)
+	public Object findAllRoles() {
+		List<Role> roles=jpaService.getAllRoles();
+		return roles;
 	} 
 	
 }
