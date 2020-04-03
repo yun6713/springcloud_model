@@ -17,10 +17,5 @@ public class AppTestController {
 	public String test1() {
 		return String.format(TEST_TEMP, appName);
 	}
-	
-	@RequestMapping("/testBaidu")
-	public String test2() {
-		return "forward:http://www.baidu.com";
-	}
 
 }

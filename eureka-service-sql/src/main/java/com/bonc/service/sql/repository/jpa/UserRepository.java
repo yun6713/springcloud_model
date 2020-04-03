@@ -35,11 +35,13 @@ import com.bonc.service.sql.repository.jpa.integrate.Jpa2MybatisUserOperation;
  * @date   2019年7月29日下午3:50:41
  * @Description TODO
  */
-public interface UserRepository extends JpaRepository<User,Integer>,Jpa2MybatisUserOperation {
+public interface UserRepository extends JpaRepository<User,Integer>, Jpa2MybatisUserOperation {
+	//springboot 2.2.6；解析为UId属性。2.1.5解析为uId。
+	User findByUId(Integer id);
+	
 	//锁模式，加锁必须在事务中执行。乐观锁必须有比对字段？
 	@Lock(value = LockModeType.PESSIMISTIC_READ)
 	//设置锁超时时间
 	@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "3000")})
-	User findByUId(Integer id);
 	User findByUsername(@NonNull String username);
 }

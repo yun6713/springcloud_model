@@ -38,7 +38,7 @@ spring:
     open-in-view: true #默认true，EntityManager在request期间绑定thread，防止懒加载错误
     show-sql: true    
     hibernate:
-      ddl-auto: create
+      ddl-auto: update #create-drop create update none
     properties:
       hibernate:
         format_sql: true

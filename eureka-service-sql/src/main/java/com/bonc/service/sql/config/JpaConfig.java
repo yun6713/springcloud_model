@@ -41,7 +41,7 @@ import com.bonc.service.sql.repository.jpa.UserRepository;
 @Configuration
 @EnableJpaRepositories(
 		entityManagerFactoryRef="entityManagerFactoryPrimary",
-		transactionManagerRef="primaryTransactionManager",//jpa增删改事务
+		transactionManagerRef="jpaTransactionManager",//jpa增删改事务
 		basePackageClasses = { UserRepository.class },//默认本注解所在包
 		repositoryImplementationPostfix="Impl" //自实现类后缀，默认Impl；接口、实现类必须放在扫描包下
 	)
@@ -87,8 +87,8 @@ public class JpaConfig {
 	 * @return
 	 */
 	@Primary
-	@Bean(name = "primaryTransactionManager")
-	public PlatformTransactionManager primaryTransactionManager(EntityManagerFactoryBuilder builder) {
+	@Bean(name = "jpaTransactionManager")
+	public PlatformTransactionManager jpaTransactionManager(EntityManagerFactoryBuilder builder) {
 		return new JpaTransactionManager(entityManagerFactoryPrimary(builder).getObject());
 	}
 	/**

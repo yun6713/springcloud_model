@@ -1,26 +1,25 @@
 package com.bonc.service.sql.controller;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@RestController
+@Api(tags="测试类")
 public class AppTestController {
 	public static final String TEST_TEMP="Test %1$s successfully.";
 	
 	@Value("${spring.application.name:APP}")
 	String appName;
 	
-	@RequestMapping({"","/test"})
-	@ResponseBody
+	@RequestMapping(value={"","/test"}, method=RequestMethod.GET)
+	@ApiOperation(value = "app测试信息")
 	public String test1() {
 		return String.format(TEST_TEMP, appName);
-	}
-	
-	@RequestMapping("/testBaidu")
-	public String test2() {
-		return "forward:http://www.baidu.com";
 	}
 
 }

@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -31,6 +32,7 @@ import org.springframework.data.domain.DomainEvents;
  */
 @Entity
 @Table(name="role")
+@NamedQuery(name = "getAllRoles", query = "SELECT r FROM Role r")//命名查询
 public class Role extends JpaAuditing implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id

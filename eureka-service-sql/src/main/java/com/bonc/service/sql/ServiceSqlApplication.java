@@ -12,7 +12,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * 3，mybatis查询<p>
  * 4，jpa查询<p>
  * 5，jpa、mybatis组合<p>
- * 6，querydsl<p>
+ * 6，querydsl；<p>
  * @author litianlin
  * @date   2020年4月1日上午10:59:39
  * @Description TODO

@@ -16,9 +16,15 @@ import com.bonc.service.sql.repository.jpa.UserRepository;
 import com.bonc.service.sql.repository.mapper.UserMapper;
 import com.bonc.service.sql.service.JpaService;
 
+/**
+ * 用户增删改查，mybatis实现。
+ * @author litianlin
+ * @date   2020年4月3日上午9:33:32
+ * @Description TODO
+ */
 @RestController
-@RequestMapping("/h2")
-public class H2Controller{
+@RequestMapping("/mybatis")
+public class MybatisController{
 	@Autowired
 	JpaService jpaService;
 	@Autowired
@@ -42,7 +48,6 @@ public class H2Controller{
 	}
 	@RequestMapping("/insertUser/{name}")
 	public Object insertUser(@PathVariable String name) {
-		if(name!=null) return name;
 		User u = new User();
 		u.setUsername(name);
 		u.setPassword("b");
