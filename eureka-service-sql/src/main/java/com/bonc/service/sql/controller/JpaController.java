@@ -1,5 +1,6 @@
 package com.bonc.service.sql.controller;
 
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -51,9 +52,9 @@ public class JpaController{
 		addr.setAddr("cq City");
 		u.setAddr(addr);
 		jpaService.saveUser(u,true);
-		return jpaService.saveUser(u,true);
+		return jpaService.saveUser(u,true);   
 	}
-	
+	  
 	@ApiOperation("按id删除用户")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", defaultValue="1", value = "id", required = true, paramType = "path")})
 	@RequestMapping(value="/deleteUser/{id}", method=RequestMethod.GET)
