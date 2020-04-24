@@ -152,5 +152,6 @@
 
 		<module>eureka-consumer-ribbon</module>
 		<module>eureka-consumer-feign</module>
+		<module>common-test</module>
 	</modules>
 </project>

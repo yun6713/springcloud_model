@@ -1,16 +1,14 @@
-package com.bonc.service.sql.test;
+package file;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
@@ -28,7 +26,7 @@ import org.springframework.util.StringUtils;
 
 import cn.hutool.core.util.ZipUtil;
 
-public class TestCsv {
+public class CsvTest {
 	@Test
 	public void testMime() {
 		String type = new MimetypesFileTypeMap().getContentType("nana.rar");
@@ -45,18 +43,27 @@ public class TestCsv {
 		Files.write(p, Arrays.asList("1,\"1,2\",\"1,2\"\",\"3\""));
 	}
 	@Test
-	public void testConn() throws IOException, SQLException {
-		Connection conn=DriverManager.getConnection("", "sa", null);
-		Statement stat = conn.createStatement();
-		ResultSet rs = stat.executeQuery("");
-		ResultSetMetaData meta = rs.getMetaData();
-		int num = meta.getColumnCount();
-		String[] cols = new String[num];
-		for (int i = 0; i < cols.length; i++) {
-			cols[i] = meta.getColumnName(i+1);
+	public void testCsvSize() throws IOException {
+		String path="C:/Users/Administrator/Desktop/test1.csv";
+		File csv = new File(path);
+		if(!csv.exists()) {
+			csv.createNewFile();
 		}
-		
-		
+		try(FileOutputStream fos = new FileOutputStream(csv)){
+			FileChannel writeChannel = fos.getChannel();
+			ByteBuffer buf = ByteBuffer.allocate(1024);
+			byte[] bytes = "1,\"1,2\",\"1,2\"\",\"3\"\r\n".getBytes();
+			buf.put(bytes);
+			int size = 100000;
+			int len = bytes.length;
+			for (int i = 0; i < size; i++) {
+				buf.flip();
+				writeChannel.write(buf, csv.length());
+				//设置position，重复使用内容
+				buf.limit(len);
+				buf.position(len);
+			}
+		}
 	}
 	@Test
 	public void handleDot() throws IOException, SQLException {

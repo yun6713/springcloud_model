@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bonc.service.sql.controller.AppTestController;
 
+import io.swagger.annotations.Api;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -27,7 +28,7 @@ public class SwaggerConfig {
 		
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
-	            .apis(RequestHandlerSelectors.any())//筛选handler
+	            .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))//筛选handler
 	            .paths(PathSelectors.any())//筛选path
 	            .build()
 	            .apiInfo(apiInfo());

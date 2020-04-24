@@ -6,7 +6,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
  * springcloud服务；h2、druid、mybatis、hibernate<p>
- * 
+ * CRUD操作、事务、回调<p>
  * 1，初始化数据。sql脚本。<p>
  * 2，druid、swagger配置<p>
  * 3，mybatis查询<p>
