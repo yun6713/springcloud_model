@@ -28,4 +28,11 @@ public class CollectionOp {
 		System.out.println("nana");
 		System.out.println(stream.collect(Collectors.toList()));
 	}
+	
+	@Test
+	public void testListToArray() {
+		System.out.println(Arrays.toString(
+				Arrays.asList("a","b").toArray(new String[0])
+				));
+	}
 }

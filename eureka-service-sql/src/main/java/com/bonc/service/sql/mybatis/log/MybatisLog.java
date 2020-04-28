@@ -1,4 +1,4 @@
-package com.bonc.service.sql.log;
+package com.bonc.service.sql.mybatis.log;
 
 import org.apache.ibatis.logging.Log;
 import org.slf4j.Logger;

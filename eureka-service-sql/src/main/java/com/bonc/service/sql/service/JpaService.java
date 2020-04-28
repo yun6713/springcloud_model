@@ -2,6 +2,8 @@ package com.bonc.service.sql.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.bonc.service.sql.entity.jpa.Role;
 import com.bonc.service.sql.entity.jpa.User;
 /**
@@ -13,13 +15,14 @@ import com.bonc.service.sql.entity.jpa.User;
 public interface JpaService {
 	
 	/*----------用户操作----------*/
-	String saveUser(User user,boolean encryptPwd);
+	String saveUser(User user,boolean encryptPwd) throws Exception;
 
 	void deleteUserById(Integer id);
 	
 	User findUserById(Integer id);
 	User findUserByUsername(String username);
 	List<User> getAllUsers();
+	Page<User> findUserPage(int page, int size, String... sortFields);
 
 	
 	/*----------角色操作----------*/
@@ -30,6 +33,9 @@ public interface JpaService {
 	Role findRoleByName(String roleName);
 	Role findRoleById(Integer id);
 	List<Role> getAllRoles();
+
+	void jpaOperation();
+
 	
 	
 }

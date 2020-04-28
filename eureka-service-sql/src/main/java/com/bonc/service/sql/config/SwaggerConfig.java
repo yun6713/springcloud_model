@@ -16,7 +16,13 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
+/**
+ * 通过@ApiModel、@ApiModelProperty；设置返回model
+ * 通过@ApiImplicitParam；设置查询参数
+ * 
+ * @author Administrator
+ *
+ */
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {

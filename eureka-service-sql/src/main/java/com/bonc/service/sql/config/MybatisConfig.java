@@ -1,6 +1,5 @@
 package com.bonc.service.sql.config;
 
-import java.io.IOException;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -9,17 +8,17 @@ import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.bonc.service.sql.repository.mapper.UserMapper;
+import com.bonc.service.sql.mybatis.MybatisMultiDataSourceHelper;
+import com.bonc.service.sql.repository.mapper.MybatisMarker;
 
 import cn.hutool.core.map.MapUtil;
 /**
@@ -34,25 +33,32 @@ import cn.hutool.core.map.MapUtil;
  * @Description TODO
  */
 @Configuration
-@MapperScan(basePackageClasses= {UserMapper.class},
-	sqlSessionFactoryRef="firstMybatis"
+@MapperScan(basePackageClasses= {MybatisMarker.class}
+	,sqlSessionFactoryRef="firstMybatis"
 )
 public class MybatisConfig {
 	@Autowired
 	DataSource dataSource;
 	
+	/*
+	 * 通过springboot方式，直接配置多数据源
+	 * 不可通过MybatisAutoConfiguration配置，循环报错。
+	 * @Bean方法中，避免调用同返回实例且为默认自动配置的@Bean方法，否则循环报错。
+	 */
 	@Bean("firstMybatis")
-	public SqlSessionFactoryBean first(DatabaseIdProvider databaseIdProvider,
-			@Value("${mybatis.mapper-locations:}")String locs,
-			@Value("${mybatis.type-aliases-package:}")String typePackage) throws IOException {
-		SqlSessionFactoryBean sfb = new SqlSessionFactoryBean();
-		sfb.setDataSource(dataSource);
-		sfb.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(locs));
-		sfb.setDatabaseIdProvider(databaseIdProvider);
-		sfb.setTypeAliasesPackage(typePackage);
-//		sfb.setTransactionFactory(transactionFactory());//默认值为SpringManagedTransactionFactory
-		return sfb;		
+	public SqlSessionFactoryBean first(MybatisMultiDataSourceHelper config) throws Exception {
+		//事务由spring管理，无需事务配置.
+		return config.sqlSessionFactory(dataSource);	
 	}
+	@Bean
+	public ConfigurationCustomizer customizer() {		
+		return config -> {
+//			config.addInterceptor(null);
+			System.out.println("[ConfigurationCustomizer]");
+		};
+	}
+
+	
 	/*
 	 * 配置跨库支持，databaseName--databaseId关联
 	 * 关联信息可从文件读取。
@@ -69,7 +75,7 @@ public class MybatisConfig {
 		databaseIdProvider.setProperties(p);
 		return databaseIdProvider;
 	}
-	// 事务配置，用于@Transactional，绑定编程式事务。
+	// 事务配置，用于@Transactional(spring)，绑定编程式事务。
 	@Bean(name = "mybatisTransactionManager")
 	public PlatformTransactionManager mybatisTransactionManager() {
 		return new DataSourceTransactionManager(dataSource);

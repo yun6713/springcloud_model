@@ -1,5 +1,6 @@
 server:
   port: 8781
+
 spring:
   application:
     name: eureka-service-sql #应用名，微服务调用名称
@@ -47,7 +48,7 @@ mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   configuration:
     database-id: h2
-    log-impl: com.bonc.service.sql.log.MybatisLog
+    log-impl: com.bonc.service.sql.mybatis.log.MybatisLog
 eureka:
   client: #eureka客户端配置
     service-url:  #注册中心url
