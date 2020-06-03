@@ -1,5 +1,6 @@
 package com.bonc.service.sql.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,13 +11,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.StringMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
@@ -48,8 +57,25 @@ public class JpaServiceImpl implements JpaService{
 
 	@Override
 	@NonNull//参数、返回值不可为null
-	@Transactional(transactionManager="jpaTransactionManager")
-	public String saveUser(User user,boolean encryptPwd) {
+	@Transactional(transactionManager="jpaTransactionManager"
+			/*
+			 * 事务传播属性，Propagation枚举类。REQUIRED必须；REQUIRED_NEW必须新增，挂起当前事务
+			 * MANDATORY必须已有事务；SUPPORTS可在事务中执行；NOT_SUPPORTED不支持事务，如有则挂起事务执行；NEVER不允许事务，有事务抛异常
+			 * NEST嵌套事务，提交/回滚时不影响外层事务，外层事务回滚时回滚嵌套事务。
+			 */
+			, propagation=Propagation.REQUIRED
+			/*
+			 * 事务隔离级别，Isolation枚举类。DEFAULT默认；READ_UNCOMMITTED未提交读；READ_COMMITTED提交读
+			 * REPEATABLE_READ可重复读；SERIALIZABLE可串行化
+			 */
+			, isolation=Isolation.DEFAULT
+			//不回滚的异常。rollbackFor回滚的异常。
+			, noRollbackFor=RuntimeException.class
+			//只读
+			, readOnly=false
+			//超时
+			, timeout=30)
+	public String saveUser(User user,boolean encryptPwd) throws Exception {
 		//新增
 		if(user.getuId()==null) {
 			//重名
@@ -60,7 +86,13 @@ public class JpaServiceImpl implements JpaService{
 			if(encryptPwd) {
 				user.setPassword(pe.encode(user.getPassword()));
 			}
-			userRepo.saveAndFlush(user);
+			user = userRepo.saveAndFlush(user);
+			//用户名结尾为t，测试不回滚；为t1，测试回滚
+			if(user.getUsername().endsWith("t")){
+				throw new RuntimeException("Jpa test no rollback");
+			}else if(user.getUsername().endsWith("t1")) {
+				throw new Exception("Jpa test rollback");
+			}
 			return "Save success";
 		}else {
 			//更新
@@ -125,7 +157,16 @@ public class JpaServiceImpl implements JpaService{
 		return userRepo.selectUsers();
 	}
 	
+	//jpa分页，page从0开始，
 	@Override
+	public Page<User> findUserPage(int page, int size, String... sortFields) {
+		Sort sort = Sort.by(sortFields);
+		Pageable pageInfo = PageRequest.of(0, 1, sort);
+		return userRepo.findAll(pageInfo);
+	}
+	
+	@Override
+	@ProgramTransaction(txManagerName="jpaTransactionManager")
 	public String saveRole(Role role) {
 		//新增
 		if(role.getrId()==null) {
@@ -147,12 +188,21 @@ public class JpaServiceImpl implements JpaService{
 		return roleRepo.findByRId(id).orElse(null);
 	}
 	@Override
- 	@ProgramTransaction(txManagerName="jpaTransactionManager")
-	public void deleteRoleById(Integer id) {
-		roleRepo.deleteById(id);
+ 	public void deleteRoleById(Integer id) {
+		EntityTransaction tansaction=entityManager.getTransaction();
+		try {
+			tansaction.begin();
+			roleRepo.deleteById(id);
+			if(id>0) {
+				throw new RuntimeException("EntityManager transaction test");
+			}
+			tansaction.commit();
+		} catch (Exception e) {
+			tansaction.rollback();
+			LOG.error("findUserById error: {}", e);
+		}
 	}
 	@Override
-	@Cacheable()
 	public Role findRoleByName(String roleName) {
 		return roleRepo.findByRoleName(roleName);
 	}
@@ -163,6 +213,34 @@ public class JpaServiceImpl implements JpaService{
 		//entityManager query查询；可包装sql
 		return entityManager.createNamedQuery("Role.getAllRoles")
 				.getResultList();
+	}
+	
+	@Override
+	public void jpaOperation() {
+		/*Example查询，无法比较时间，早于晚于等。
+		 * Example/ExampleMathcher；创建匹配
+		 * GenericPropertyMatcher/GenericPropertyMatchers；匹配器
+		 * 
+		 * */
+		ExampleMatcher matcher = ExampleMatcher.matchingAny()
+				.withMatcher("username", ExampleMatcher.GenericPropertyMatchers.exact())
+				.withMatcher("createTime", t -> t.caseSensitive().contains())
+				.withIgnoreNullValues()//忽略null
+				.withStringMatcher(StringMatcher.EXACT)//String默认匹配相等
+				.withIgnorePaths("u_id");//忽略属性
+		User user = new User();
+		user.setUsername("ltl");
+		Example<User> example = Example.of(user, matcher);
+		userRepo.count(example);		
+		userRepo.findOne(example);//只返回一个，或null
+		
+		/*
+		 * 批量执行
+		 */
+		userRepo.deleteInBatch(new ArrayList<User>());
+		
+		
+		
 	}
 	
 }

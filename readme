@@ -4,12 +4,16 @@ springcloud模板项目，便于查看使用方式；每个中间件一个项目
 	eureka-consumer-ribbon/feign；访问入口、安全。swagger、mvc
 	eureka-service-redis；缓存
 	eureka-service-rabbitmq；消息
-	eureka-service-sql；h2、druid、mybatis/pageHelper、hibernate、querydsl
+	eureka-service-sql；h2、druid、mybatis/pageHelper、hibernate
 	eureka-service-es；es检索，spring data、client模式
 	spring-test；测试
 	spring-integrate；整合。加密、邮件、quartz、
 	spring-ext；spring扩展。ioc扩展、aop、spel、资源、事件
-
+端口分配：
+	eureka功能性模块；876*
+	eureka消费者；877*
+	eureka提供者；878*
+	spring及其扩展；879*
 通用包：
 	fastjson；序列化
 	

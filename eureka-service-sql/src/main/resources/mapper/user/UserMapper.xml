@@ -13,6 +13,7 @@
   	<result  column="password" property="password"/>
   	<collection property="roles" ofType="role" resultMap="role"/>
   </resultMap>
+  
   <resultMap type="role" id="role">
   	<id column="role_id" property="rId"/>
   	<result column="role_name" property="roleName"/>
@@ -20,6 +21,31 @@
   <sql id="Base_Column_List" >
     u_id,username
   </sql>
+  
+  <!-- 主键策略：自增，序列/表格获取 -->
+  <!-- 数据库不支持自增主键，从序列、表格获取 -->
+  <insert id="insertUser">
+  	<!-- s_generator为序列，jpa User创建 -->
+  	<selectKey keyProperty="uId" resultType="int" order="BEFORE" statementType="PREPARED">
+  		call next value for s_generator
+  	</selectKey>
+  	<!-- current_timestamp()，H2获取时间戳函数 -->
+  	insert into user (u_id, username, password, addr, zip_code, create_time) values 
+  		(#{uId}, #{username}, #{password}, #{addr.addr}, #{addr.zipCode}, current_timestamp())
+  </insert>
+  
+  <delete id="deleteUserRole">
+  	delete from user_role 
+  		<where>
+  			<if test="id != null">
+  				u_id=#{id}
+  			</if>
+  		</where> 
+  </delete>
+  
+  <delete id="deleteUser">
+  	delete from user where u_id=#{id}
+  </delete>
   
   <select id="selectUsers" resultMap="user" databaseId="h2">
       select u.u_id,u.username,u.password,r.role_id,r.role_Name from user u
@@ -30,17 +56,5 @@
   <select id="selectUsers" resultMap="user">
       select <include refid="Base_Column_List"></include> from user
   </select>
-  <!-- 主键策略未测试 -->
-  <!-- 数据库不支持自增主键，从序列、表格获取 -->
-  <insert id="insertUser">
-  	<selectKey keyProperty="u_id" resultType="int" order="BEFORE">
-  		select  CAST(RANDOM()*1000000 as INTEGER) a from SYSIBM.SYSDUMMY1
-  	</selectKey>
-  	insert into user (u_id,username,password) values 
-  		(#{uId},#{username},#{password})
-  </insert>
-  <!-- 自增主键 -->
-  <insert id="insertRole" useGeneratedKeys="true" keyProperty="r_id">
-  	insert into role (role_name) values (#{roleName})
-  </insert>
+  
 </mapper>

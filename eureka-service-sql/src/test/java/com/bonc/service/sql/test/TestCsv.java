@@ -1,6 +1,8 @@
 package com.bonc.service.sql.test;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,12 +18,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.activation.MimetypesFileTypeMap;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.util.MimeType;
 import org.springframework.util.StringUtils;
+
+import cn.hutool.core.util.ZipUtil;
 
 public class TestCsv {
 	@Test
@@ -137,5 +142,61 @@ public class TestCsv {
 		   }
 		   m.appendTail(sb);
 		   System.out.println(sb);
+	}
+	
+	@Test
+	public void testZip() throws IOException {
+		File zipFile = new File("files.zip");//File.createTempFile("files", ".zip");
+		List<File> list = Arrays.asList("C:/Users/Administrator/Desktop/test1.csv", 
+				"C:/Users/Administrator/Desktop/nana4828669929693324911.csv", 
+				"C:/Users/Administrator/Desktop/测试.xlsx")
+				.stream()
+				.filter(StringUtils::hasText)
+				.map(File::new)
+				.collect(Collectors.toList());
+		File[] files = new File[list.size()];
+		list.toArray(files);
+		ZipUtil.zip(zipFile, false, files);
+		
+	}
+	
+	@Test
+	public void testZos() throws IOException {
+		File file = new File("C:/Users/Administrator/Desktop/sqlEntity.zip");
+		if(!file.exists()) {
+			file.createNewFile();
+		}
+		List<File> list = Arrays.asList(
+//				"C:/Users/Administrator/Desktop/test1.csv", 
+//				"C:/Users/Administrator/Desktop/nana4828669929693324911.csv", 
+//				"C:/Users/Administrator/Desktop/测试.xlsx",
+				"C:/Users/Administrator/Desktop/test.txt"
+				)
+				.stream()
+				.filter(StringUtils::hasText)
+				.map(File::new)
+				.collect(Collectors.toList());
+			
+		try(ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(file))){
+			list.forEach(f->{
+				if(f==null) return;
+				ZipEntry entry = new ZipEntry(f.getName());
+				try(FileInputStream fis = new FileInputStream(f)) {
+					zos.putNextEntry(entry);
+					byte[] bytes = new byte[4*1024];
+					int len = fis.read(bytes);
+					while(len > 0) {
+						System.out.println(new String(bytes, 0 , len));
+						zos.write(bytes, 0 , len);
+						len = fis.read(bytes);
+					}
+					zos.flush();
+					zos.closeEntry();
+				}catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+		}
+		
 	}
 }

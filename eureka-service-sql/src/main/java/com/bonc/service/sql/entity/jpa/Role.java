@@ -32,7 +32,7 @@ import org.springframework.data.domain.DomainEvents;
  */
 @Entity
 @Table(name="role")
-@NamedQuery(name = "getAllRoles", query = "SELECT r FROM Role r")//命名查询
+@NamedQuery(name = "Role.getAllRoles", query = "SELECT r FROM Role r")//命名查询
 public class Role extends JpaAuditing implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -98,10 +98,12 @@ public class Role extends JpaAuditing implements Serializable{
 		return true;
 	}
 	@DomainEvents//保存Role后发布事件,不等事务结束,在保存时的事务中；EventListener若非异步、新开事务，也在保存时事务中
+	//@TransactionalEventListener，phase配置触发时机，默认提交后
 	public List<RoleSaveEvent> domainEvents() throws IllegalArgumentException, IllegalAccessException, SecurityException{
 		return Arrays.asList(new RoleSaveEvent(rId));
 	}
-	@AfterDomainEventPublication//@DomainEvents后立即执行，不等事务结束
+	//@DomainEvents后立即执行，不等事务结束。清理事件信息。
+	@AfterDomainEventPublication
 	public void afterDomainEventPublication() {
 		System.out.println("这玩意有什么用？");
 	}

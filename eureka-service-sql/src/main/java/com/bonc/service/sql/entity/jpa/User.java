@@ -63,8 +63,8 @@ public class User implements Serializable{
 	@javax.persistence.Id//hibernate id标记
 	@Column(name="u_id")
 	//从序列中获取主键，关闭druid wall过滤器。
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="sGenerator")
-	@SequenceGenerator(name = "sGenerator",allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="sGenerator")
+	@SequenceGenerator(name = "sGenerator", allocationSize=1)
 	private Integer uId;
 //	@JsonIgnore
 	@Column(name="username")
