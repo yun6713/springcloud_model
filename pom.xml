@@ -154,13 +154,18 @@
 	<modules>
 		<module>euraka-register</module>
 
-		<module>eureka-service-sql</module>
+		
 
 		<module>eureka-consumer-ribbon</module>
 		<module>eureka-consumer-feign</module>
-    <module>erraka-service-common</module>
-    <module>euraka-service-commom</module>
+    
+    
 		<module>common-test</module>
-		<module>eureka-service-mybatisPlus</module>
+		
+		
+		
+		<module>euraka-service-common</module>
+		<module>eureka-service-data</module>
+		<module>facade-project</module>
 	</modules>
 </project>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bonc.service.sql.repository.mapper.UserMapper" >
+  <!-- 配置中指定了别名扫描包 -->
+  <!-- mapper标签：select/insert/update/delete、cache/cache-ref、selectKey、sql、resultMap -->
+  <!-- OGNL标签：if、choose+when+otherwise、trim/where/set、foreach、bind等 -->
+  <!-- OGNL表达式方法运算：e1[e2]、e.method()、e.field、@class@method()、@class@field -->
+  <!-- 内置参数：_parameter、_databaseId -->
+  <!-- 比较单字符时，OGNL将'a'转换为字符a，使用"a",'a'.toString()表示字符串；否则一直返回false -->
+  <resultMap id="user" type="user">
+  	<id column="u_id" property="uId"/>
+  	<result  column="username" property="username"/>
+  	<result  column="password" property="password"/>
+  	<collection property="roles" ofType="role" resultMap="role"/>
+  </resultMap>
+  
+  <resultMap type="role" id="role">
+  	<id column="role_id" property="rId"/>
+  	<result column="role_name" property="roleName"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    u_id,username
+  </sql>
+  
+  <!-- 主键策略：自增，序列/表格获取 -->
+  <!-- 数据库不支持自增主键，从序列、表格获取 -->
+  <insert id="insertUser">
+  	<!-- s_generator为序列，jpa User创建 -->
+  	<selectKey keyProperty="uId" resultType="int" order="BEFORE" statementType="PREPARED">
+  		call next value for s_generator
+  	</selectKey>
+  	<!-- current_timestamp()，H2获取时间戳函数 -->
+  	insert into user (u_id, username, password, addr, zip_code, create_time) values 
+  		(#{uId}, #{username}, #{password}, #{addr.addr}, #{addr.zipCode}, current_timestamp())
+  </insert>
+  
+  <delete id="deleteUserRole">
+  	delete from user_role 
+  		<where>
+  			<if test="id != null">
+  				u_id=#{id}
+  			</if>
+  		</where> 
+  </delete>
+  
+  <delete id="deleteUser">
+  	delete from user where u_id=#{id}
+  </delete>
+  
+  <select id="selectUsers" resultMap="user" databaseId="h2">
+      select u.u_id,u.username,u.password,r.role_id,r.role_Name from user u
+      	left join user_role ur on u.u_id=ur.u_id 
+      	left join role r on ur.r_id=r.role_id
+  </select>
+  
+  <select id="selectUsers" resultMap="user">
+      select <include refid="Base_Column_List"></include> from user
+  </select>
+  
+</mapper>
