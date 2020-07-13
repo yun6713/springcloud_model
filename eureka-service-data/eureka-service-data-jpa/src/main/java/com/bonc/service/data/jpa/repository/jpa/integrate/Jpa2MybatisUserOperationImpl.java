@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bonc.service.data.jpa.entity.jpa.User;
+import com.bonc.service.data.jpa.entity.User;
 import com.bonc.service.data.jpa.repository.mapper.UserMapper;
 /**
  * 自定义实现类，后缀在@EnableJpaRepositories.repositoryImplementationPostfix定义<p>

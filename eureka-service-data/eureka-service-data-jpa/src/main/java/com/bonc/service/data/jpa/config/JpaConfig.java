@@ -27,8 +27,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import com.bonc.service.data.jpa.entity.jpa.User;
-import com.bonc.service.data.jpa.entity.jpa.Role.RoleSaveEvent;
+import com.bonc.service.data.jpa.entity.User;
+import com.bonc.service.data.jpa.entity.Role.RoleSaveEvent;
 import com.bonc.service.data.jpa.repository.jpa.UserRepository;
 
 /**

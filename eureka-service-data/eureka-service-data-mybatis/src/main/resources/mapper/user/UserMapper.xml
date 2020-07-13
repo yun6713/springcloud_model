@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.bonc.service.sql.repository.mapper.UserMapper" >
+<mapper namespace="com.bonc.service.data.mybatis.repository.mapper.UserMapper" >
   <!-- 配置中指定了别名扫描包 -->
   <!-- mapper标签：select/insert/update/delete、cache/cache-ref、selectKey、sql、resultMap -->
   <!-- OGNL标签：if、choose+when+otherwise、trim/where/set、foreach、bind等 -->
   <!-- OGNL表达式方法运算：e1[e2]、e.method()、e.field、@class@method()、@class@field -->
   <!-- 内置参数：_parameter、_databaseId -->
   <!-- 比较单字符时，OGNL将'a'转换为字符a，使用"a",'a'.toString()表示字符串；否则一直返回false -->
-  <resultMap id="user" type="user">
+  <resultMap id="user" type="User">
   	<id column="u_id" property="uId"/>
   	<result  column="username" property="username"/>
   	<result  column="password" property="password"/>
-  	<collection property="roles" ofType="role" resultMap="role"/>
+  	<collection property="roles" ofType="Role" resultMap="role"/>
   </resultMap>
   
-  <resultMap type="role" id="role">
+  <resultMap type="Role" id="role">
   	<id column="role_id" property="rId"/>
   	<result column="role_name" property="roleName"/>
   </resultMap>
@@ -43,7 +43,7 @@
   		</where> 
   </delete>
   
-  <delete id="deleteUser">
+  <delete id="deleteUserById">
   	delete from user where u_id=#{id}
   </delete>
   
@@ -55,6 +55,16 @@
   
   <select id="selectUsers" resultMap="user">
       select <include refid="Base_Column_List"></include> from user
+  </select>
+  
+  <select id="findUserById" resultMap="user">
+  		select <include refid="Base_Column_List"></include> from user 
+  		where u_id=#{id}
+  </select>
+  
+  <select id="findUserByUsername" resultMap="user">
+  		select <include refid="Base_Column_List"></include> from user 
+  		where username=#{username}
   </select>
   
 </mapper>

@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bonc.service.data.mybatis.entity.jpa.User;
+import com.bonc.facade.dto.data.UserDTO;
+import com.bonc.facade.vo.data.UserVO;
 import com.bonc.service.data.mybatis.service.MybatisService;
 
 import io.swagger.annotations.Api;
@@ -39,7 +40,7 @@ public class MybatisController{
 	@ApiImplicitParams({ @ApiImplicitParam(name = "name", defaultValue="yun6713", value = "姓名", required = true, paramType = "path")})
 	@RequestMapping(value="/insertUser/{name}", method=RequestMethod.GET)
 	public String insertUser(@PathVariable String name) {
-		User u = new User();
+		UserDTO u = new UserDTO();
 		u.setUsername(name);
 		u.setPassword("b");
 		mybatisService.insertUser(u);
@@ -67,16 +68,16 @@ public class MybatisController{
 	@ApiOperation("按id查询用户。EntityManager查询")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", defaultValue="1", value = "id", required = true, paramType = "path")})
 	@RequestMapping(value="/findUser/{id}", method=RequestMethod.GET)
-	public User findUser(@PathVariable("id") Integer id) {
-		User u = mybatisService.findUserById(id);
+	public UserVO findUser(@PathVariable("id") Integer id) {
+		UserVO u = mybatisService.findUserById(id);
 		return u;
 	}
 	
 	@ApiOperation("按id查询用户。读锁，编程式事务；entityManager获取事务")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "name", value = "name", required = true, paramType = "path")})
 	@RequestMapping(value="/findUserByUsername/{name}", method=RequestMethod.GET)
-	public User findUserByUsername(@PathVariable("name") String name) {
-		User u = mybatisService.findUserByUsername(name);
+	public UserVO findUserByUsername(@PathVariable("name") String name) {
+		UserVO u = mybatisService.findUserByUsername(name);
 		return u;
 	}
 }

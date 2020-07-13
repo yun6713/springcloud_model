@@ -1,9 +1,9 @@
 server:
-  port: 8781
+  port: 8782
 
 spring:
   application:
-    name: eureka-service-sql #应用名，微服务调用名称
+    name: eureka-service-data-mybatis #应用名，微服务调用名称
   #  h2: #内嵌h2配置
 #    console: #h2浏览器监控界面
 #      enabled: true
@@ -44,11 +44,11 @@ spring:
       hibernate:
         format_sql: true
 mybatis:
-  type-aliases-package: com.bonc.service.sql.entity.jpa
+  type-aliases-package: com.bonc.service.data.mybatis.entity
   mapper-locations: classpath:mapper/**/*.xml
   configuration:
     database-id: h2
-    log-impl: com.bonc.service.sql.mybatis.log.MybatisLog
+   # log-impl: com.bonc.service.data.mybatis.mybatis.log.MybatisLog
 eureka:
   client: #eureka客户端配置
     service-url:  #注册中心url

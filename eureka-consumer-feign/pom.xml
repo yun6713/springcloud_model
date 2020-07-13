@@ -6,4 +6,17 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>eureka-consumer-feign</artifactId>
+  
+  <dependencies>
+<!-- Feign依赖 -->
+	<dependency>
+	     <groupId>org.springframework.cloud</groupId>
+	     <artifactId>spring-cloud-starter-openfeign</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.bonc</groupId>
+		<artifactId>facade</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+  </dependencies>
 </project>

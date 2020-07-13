@@ -1,12 +1,13 @@
 package com.bonc.service.data.mybatis.service;
 
-import com.bonc.service.data.mybatis.entity.jpa.User;
+import com.bonc.facade.dto.data.UserDTO;
+import com.bonc.facade.vo.data.UserVO;
 
 public interface MybatisService {
-	int insertUser(User user);
+	int insertUser(UserDTO user);
 	int deleteUserById(Integer id);
 	int updateUser(Integer id, String username);
-	User findUserById(Integer id);
-	User findUserByUsername(String username);
+	UserVO findUserById(Integer id);
+	UserVO findUserByUsername(String username);
 	
 }

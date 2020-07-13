@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.bonc.service.mybatisPlus.controller.AppTestController;
+import com.bonc.service.data.mybatisPlus.controller.AppTestController;
 
 @SpringBootTest
 @TestInstance(value = Lifecycle.PER_CLASS)//每次测试构建新的测试实例，PRE_METHOD每个测试方法

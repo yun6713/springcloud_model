@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.lang.NonNull;
 
-import com.bonc.service.data.jpa.entity.jpa.User;
+import com.bonc.service.data.jpa.entity.User;
 import com.bonc.service.data.jpa.repository.jpa.integrate.Jpa2MybatisUserOperation;
 /**
  * 继承自定义接口Jpa2MybatisUserOperation；整合mybatis查询。

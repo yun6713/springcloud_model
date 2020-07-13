@@ -1,0 +1,10 @@
+2020年7月9日20:46:11
+1，mybatis项目完善
+2，抽取facade项目
+	entity对应表，框架查询。私有
+	dto传参、vo返回；公用，controller层做参数类型转换。
+3，feign运行
+	jpa增加角色，mybatis增加用户
+4，部署seata
+
+

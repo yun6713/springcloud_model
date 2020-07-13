@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bonc.service.data.jpa.entity.jpa.Address;
-import com.bonc.service.data.jpa.entity.jpa.Role;
-import com.bonc.service.data.jpa.entity.jpa.User;
+import com.bonc.service.data.jpa.entity.Address;
+import com.bonc.service.data.jpa.entity.Role;
+import com.bonc.service.data.jpa.entity.User;
 import com.bonc.service.data.jpa.service.JpaService;
 
 import io.swagger.annotations.Api;

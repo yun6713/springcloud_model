@@ -1,7 +1,7 @@
 package com.bonc.service.data.jpa.service;
 
-import com.bonc.service.data.jpa.entity.jpa.Role;
-import com.bonc.service.data.jpa.entity.jpa.User;
+import com.bonc.service.data.jpa.entity.Role;
+import com.bonc.service.data.jpa.entity.User;
 
 public interface IntegrateService {
 	User saveUser(User user,boolean encrypt);

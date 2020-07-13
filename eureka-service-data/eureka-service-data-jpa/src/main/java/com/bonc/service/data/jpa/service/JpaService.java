@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import com.bonc.service.data.jpa.entity.jpa.Role;
-import com.bonc.service.data.jpa.entity.jpa.User;
+import com.bonc.service.data.jpa.entity.Role;
+import com.bonc.service.data.jpa.entity.User;
 /**
  * jpa操作用户、角色接口；增删改查
  * @author litianlin

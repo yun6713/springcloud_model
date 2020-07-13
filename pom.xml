@@ -81,10 +81,15 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.7.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
+<!-- spring相关 -->
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
@@ -166,6 +171,7 @@
 		
 		<module>euraka-service-common</module>
 		<module>eureka-service-data</module>
-		<module>facade-project</module>
+		
+		<module>facade</module>
 	</modules>
 </project>

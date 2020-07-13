@@ -24,5 +24,10 @@
 		    <groupId>com.querydsl</groupId>
 		    <artifactId>querydsl-apt</artifactId>
 	    </dependency>
+		<dependency>
+			<groupId>com.bonc</groupId>
+			<artifactId>facade</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
   </dependencies>
 </project>

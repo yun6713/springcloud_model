@@ -30,8 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.bonc.service.data.jpa.aop.ProgramTransaction;
-import com.bonc.service.data.jpa.entity.jpa.Role;
-import com.bonc.service.data.jpa.entity.jpa.User;
+import com.bonc.service.data.jpa.entity.Role;
+import com.bonc.service.data.jpa.entity.User;
 import com.bonc.service.data.jpa.repository.jpa.RoleRepository;
 import com.bonc.service.data.jpa.repository.jpa.UserRepository;
 import com.bonc.service.data.jpa.service.JpaService;
