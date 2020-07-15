@@ -39,13 +39,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * @author Administrator
  *
  */
-@Intercepts({
-		@Signature(type = Executor.class, method = "update", args = {
-				MappedStatement.class, Object.class }),
-		@Signature(type = Executor.class, method = "query", args = {
-				MappedStatement.class, Object.class, RowBounds.class,
-			ResultHandler.class }) })
-@Component
+//@Intercepts({
+//		@Signature(type = Executor.class, method = "update", args = {
+//				MappedStatement.class, Object.class }),
+//		@Signature(type = Executor.class, method = "query", args = {
+//				MappedStatement.class, Object.class, RowBounds.class,
+//			ResultHandler.class }) })
+//@Component
 public class ExecuteSqlLogInterceptor implements Interceptor {
 	private static final Logger logger = LoggerFactory.getLogger(ExecuteSqlLogInterceptor.class);
 

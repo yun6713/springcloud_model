@@ -13,5 +13,4 @@ public interface UserMapper{
 	int updateUser(@Param("username") String username, @Param("id") Integer id);
 	
 	
-	
 }

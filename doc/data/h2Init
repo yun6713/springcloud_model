@@ -1,0 +1,24 @@
+1，h2数据备份、恢复
+	备份：CALL CSVWRITE ( 'D:/H2/dbbak/20141013.txt', 'SELECT * FROM MYTABLE');
+	恢复：CREATE TABLE MYTABLE AS SELECT * FROM CSVREAD('D:/H2/dbbak/20141013.csv');
+		CREATE TABLE TEST(ID INT PRIMARY KEY, NAME VARCHAR(255)) AS SELECT * FROM CSVREAD('d:/test.csv ');
+	导入：INSERT INTO TEST ( SELECT  * FROM  CSVREAD('C:/Users/Administrator/git/springcloud_model/doc/data/data/.csv ')) ;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

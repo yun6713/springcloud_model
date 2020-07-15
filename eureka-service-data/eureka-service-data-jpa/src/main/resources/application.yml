@@ -43,11 +43,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-mybatis:
-  type-aliases-package: com.bonc.service.data.jpa.entity.jpa
-  mapper-locations: classpath:mapper/**/*.xml
-  configuration:
-    database-id: h2
 eureka:
   client: #eureka客户端配置
     service-url:  #注册中心url

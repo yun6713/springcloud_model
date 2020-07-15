@@ -30,8 +30,8 @@
   		call next value for s_generator
   	</selectKey>
   	<!-- current_timestamp()，H2获取时间戳函数 -->
-  	insert into user (u_id, username, password, addr, zip_code, create_time) values 
-  		(#{uId}, #{username}, #{password}, #{addr.addr}, #{addr.zipCode}, current_timestamp())
+  	insert into user (u_id, username, password, create_time) values 
+  		(#{uId}, #{username}, #{password}, current_timestamp())
   </insert>
   
   <delete id="deleteUserRole">
